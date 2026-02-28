@@ -1,4 +1,6 @@
 import pygame
+import json
+from pathlib import Path
 from src.core.scene_manager import SceneBase
 from src.battle.tactical_scene import TacticalScene
 
@@ -12,6 +14,8 @@ from src.ui.menu_quests import QuestMenuUI
 from src.systems.shop_system import ShopSystem
 from src.rpg.quest_log import QuestLog
 from src.systems.quest_system import QuestSystem
+from src.world.npc_system import NPCSystem
+from src.world.interaction_system import InteractionSystem
 
 
 class TownScene(SceneBase):
@@ -101,6 +105,15 @@ class TownScene(SceneBase):
         self.equip_ui = EquipmentMenuUI()
         self.shop_ui = ShopMenuUI()
         self.quest_ui = QuestMenuUI()
+        self.npc_system = NPCSystem(self._load_npc_data())
+        self.interaction_system = InteractionSystem()
+        self.chapter_dialogues = self.content.load_chapter_dialogues(self._chapter_dialogue_id())
+
+        first_town_dialogue = self.chapter_dialogues.get("town_dialogues", [])
+        if first_town_dialogue:
+            speaker = first_town_dialogue[0].get("speaker", "NPC")
+            text = first_town_dialogue[0].get("text", "")
+            self.message = f"{speaker}：{text}"
 
     def _build_preview_units(self, stage_id):
         stage = self.content.load_stage(stage_id)
@@ -237,7 +250,23 @@ class TownScene(SceneBase):
         en = len(stage.get("enemy_units", []))
         pl = len(self.party.deployed_ids)
         name = stage.get("name", self.stage_id)
-        self.message = "关卡：%s | 出击人数:%d | 敌军人数:%d" % (name, pl, en)
+        npc_lines = self.interaction_system.get_stage_npc_lines(self.npc_system.npcs_for_stage(self.stage_id))
+        npc_hint = (" | NPC:%s" % npc_lines[0][:24]) if npc_lines else ""
+        self.message = "关卡：%s | 出击人数:%d | 敌军人数:%d%s" % (name, pl, en, npc_hint)
+
+    def _load_npc_data(self):
+        p = Path("data/npcs/npcs.json")
+        if not p.exists():
+            return {}
+        raw = json.loads(p.read_text(encoding="utf-8"))
+        return raw.get("npcs", {})
+
+    def _chapter_dialogue_id(self):
+        parts = self.stage_id.split("_")
+        if len(parts) < 1:
+            return "chapter_01"
+        num = parts[0].replace("ch", "")
+        return f"chapter_{num}"
 
     def _start_battle(self):
         # 统计启动

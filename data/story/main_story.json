@@ -1,5 +1,17 @@
 {
   "story": {
+    "prologue": [
+      {
+        "speaker": "旁白",
+        "text": "王国边境突现异动，失踪与劫掠事件频发。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Aren",
+        "text": "父王命我率小队侦查，必须在战争扩大前查清真相。",
+        "portrait": ""
+      }
+    ],
     "ch01_battle_01_intro": [
       {
         "speaker": "旁白",
@@ -45,7 +57,36 @@
       },
       {
         "speaker": "旁白",
-        "text": "第一章结束，新的旅途即将开始。",
+        "text": "线索直指北境古堡，那里驻扎着神秘军阀“黑鸦将军”。",
+        "portrait": ""
+      }
+    ],
+    "ch03_battle_01_intro": [
+      {
+        "speaker": "旁白",
+        "text": "夜色中，小队潜入古堡，战火即将点燃。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Bran",
+        "text": "正门守军太多，我们沿侧翼突进，别被围住。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Cina",
+        "text": "我会压制高台弓兵，你们直取将军。",
+        "portrait": ""
+      }
+    ],
+    "ch03_battle_01_victory": [
+      {
+        "speaker": "黑鸦将军",
+        "text": "真正的主谋……在王都议会……",
+        "portrait": ""
+      },
+      {
+        "speaker": "Aren",
+        "text": "果然是内乱阴谋。下一章，我们回王都揭开真相。",
         "portrait": ""
       }
     ]

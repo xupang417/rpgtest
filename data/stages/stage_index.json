@@ -8,6 +8,11 @@
     "ch02_battle_01": {
       "name": "边境林地",
       "file": "data/stages/chapter_02.json",
+      "next_stage": "ch03_battle_01"
+    },
+    "ch03_battle_01": {
+      "name": "古堡突入",
+      "file": "data/stages/chapter_03.json",
       "next_stage": ""
     }
   }

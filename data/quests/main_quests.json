@@ -1,0 +1,28 @@
+{
+  "quests": [
+    {
+      "id": "mq_ch01",
+      "name": "郊野肃清",
+      "type": "main",
+      "target_stage": "ch01_battle_01",
+      "objective": "击败郊野盗匪",
+      "rewards": { "gold": 500, "items": ["potion_m"] }
+    },
+    {
+      "id": "mq_ch02",
+      "name": "林地追踪",
+      "type": "main",
+      "target_stage": "ch02_battle_01",
+      "objective": "追踪幕后军阀线索",
+      "rewards": { "gold": 700, "items": ["steel_sword"] }
+    },
+    {
+      "id": "mq_ch03",
+      "name": "古堡决战",
+      "type": "main",
+      "target_stage": "ch03_battle_01",
+      "objective": "击败黑鸦将军",
+      "rewards": { "gold": 1000, "items": ["killer_axe"] }
+    }
+  ]
+}

@@ -35,6 +35,42 @@
       "hit": 65,
       "crit": 0,
       "range": [1, 1]
+    },
+    {
+      "id": "steel_sword",
+      "name": "钢剑",
+      "type": "sword",
+      "might": 8,
+      "hit": 80,
+      "crit": 0,
+      "range": [1, 1]
+    },
+    {
+      "id": "steel_lance",
+      "name": "钢枪",
+      "type": "lance",
+      "might": 10,
+      "hit": 70,
+      "crit": 0,
+      "range": [1, 1]
+    },
+    {
+      "id": "steel_bow",
+      "name": "钢弓",
+      "type": "bow",
+      "might": 9,
+      "hit": 75,
+      "crit": 5,
+      "range": [2, 2]
+    },
+    {
+      "id": "killer_axe",
+      "name": "必杀斧",
+      "type": "axe",
+      "might": 11,
+      "hit": 60,
+      "crit": 30,
+      "range": [1, 1]
     }
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "story": {
+    "side_rescue_medic": [
+      {
+        "speaker": "村医 Lysa",
+        "text": "如果你们能带回药草，我愿随军救治伤员。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Aren",
+        "text": "这份力量会救下很多人，拜托你了。",
+        "portrait": ""
+      }
+    ],
+    "side_blacksmith": [
+      {
+        "speaker": "铁匠 Gorn",
+        "text": "给我矿石，我就能打造更锋利的武器。",
+        "portrait": ""
+      }
+    ]
+  }
+}

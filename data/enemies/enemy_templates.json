@@ -5,6 +5,18 @@
       "display_name": "山贼",
       "class_id": "fighter",
       "weapon_id": "iron_axe"
+    },
+    {
+      "id": "fort_archer",
+      "display_name": "堡垒弓兵",
+      "class_id": "archer",
+      "weapon_id": "steel_bow"
+    },
+    {
+      "id": "crow_general",
+      "display_name": "黑鸦将军",
+      "class_id": "berserker",
+      "weapon_id": "killer_axe"
     }
   ]
 }

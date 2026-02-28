@@ -1,0 +1,40 @@
+{
+  "weapons": [
+    {
+      "id": "iron_sword",
+      "name": "铁剑",
+      "type": "sword",
+      "might": 5,
+      "hit": 85,
+      "crit": 0,
+      "range": [1, 1]
+    },
+    {
+      "id": "iron_lance",
+      "name": "铁枪",
+      "type": "lance",
+      "might": 7,
+      "hit": 75,
+      "crit": 0,
+      "range": [1, 1]
+    },
+    {
+      "id": "iron_bow",
+      "name": "铁弓",
+      "type": "bow",
+      "might": 6,
+      "hit": 80,
+      "crit": 0,
+      "range": [2, 2]
+    },
+    {
+      "id": "iron_axe",
+      "name": "铁斧",
+      "type": "axe",
+      "might": 8,
+      "hit": 65,
+      "crit": 0,
+      "range": [1, 1]
+    }
+  ]
+}

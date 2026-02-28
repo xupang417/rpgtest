@@ -1,0 +1,14 @@
+{
+  "stages": {
+    "ch01_battle_01": {
+      "name": "王都郊野",
+      "file": "data/stages/chapter_01.json",
+      "next_stage": "ch02_battle_01"
+    },
+    "ch02_battle_01": {
+      "name": "边境林地",
+      "file": "data/stages/chapter_02.json",
+      "next_stage": ""
+    }
+  }
+}

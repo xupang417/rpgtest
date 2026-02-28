@@ -1,0 +1,9 @@
+{
+  "screen_width": 1280,
+  "screen_height": 720,
+  "fps": 60,
+  "window_title": "像素王国战棋RPG",
+  "master_volume": 80,
+  "sfx_volume": 80,
+  "window_mode": "窗口"
+}

@@ -1,0 +1,132 @@
+{
+  "classes": [
+    {
+      "id": "lord",
+      "name": "领主",
+      "move": 5,
+      "growth": {
+        "hp": 70,
+        "str": 55,
+        "mag": 20,
+        "skl": 60,
+        "spd": 60,
+        "lck": 55,
+        "def": 40,
+        "res": 30
+      },
+      "allowed_weapons": ["sword"]
+    },
+    {
+      "id": "knight",
+      "name": "骑士",
+      "move": 4,
+      "growth": {
+        "hp": 80,
+        "str": 50,
+        "mag": 10,
+        "skl": 45,
+        "spd": 30,
+        "lck": 35,
+        "def": 60,
+        "res": 20
+      },
+      "allowed_weapons": ["lance"]
+    },
+    {
+      "id": "archer",
+      "name": "弓手",
+      "move": 5,
+      "growth": {
+        "hp": 65,
+        "str": 50,
+        "mag": 10,
+        "skl": 65,
+        "spd": 55,
+        "lck": 45,
+        "def": 30,
+        "res": 25
+      },
+      "allowed_weapons": ["bow"]
+    },
+    {
+      "id": "fighter",
+      "name": "战士",
+      "move": 5,
+      "growth": {
+        "hp": 75,
+        "str": 60,
+        "mag": 5,
+        "skl": 45,
+        "spd": 50,
+        "lck": 30,
+        "def": 35,
+        "res": 15
+      },
+      "allowed_weapons": ["axe"]
+    },
+    {
+      "id": "swordmaster",
+      "name": "剑圣",
+      "move": 6,
+      "growth": {
+        "hp": 65,
+        "str": 60,
+        "mag": 20,
+        "skl": 70,
+        "spd": 70,
+        "lck": 55,
+        "def": 35,
+        "res": 35
+      },
+      "allowed_weapons": ["sword"]
+    },
+    {
+      "id": "paladin",
+      "name": "圣骑士",
+      "move": 7,
+      "growth": {
+        "hp": 75,
+        "str": 55,
+        "mag": 20,
+        "skl": 55,
+        "spd": 50,
+        "lck": 45,
+        "def": 50,
+        "res": 35
+      },
+      "allowed_weapons": ["lance", "sword"]
+    },
+    {
+      "id": "sniper",
+      "name": "狙击手",
+      "move": 6,
+      "growth": {
+        "hp": 65,
+        "str": 55,
+        "mag": 15,
+        "skl": 75,
+        "spd": 60,
+        "lck": 50,
+        "def": 35,
+        "res": 30
+      },
+      "allowed_weapons": ["bow"]
+    },
+    {
+      "id": "berserker",
+      "name": "狂战士",
+      "move": 6,
+      "growth": {
+        "hp": 80,
+        "str": 70,
+        "mag": 5,
+        "skl": 50,
+        "spd": 55,
+        "lck": 35,
+        "def": 40,
+        "res": 20
+      },
+      "allowed_weapons": ["axe"]
+    }
+  ]
+}

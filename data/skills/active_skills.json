@@ -1,0 +1,75 @@
+{
+  "skills": [
+    {
+      "id": "sk_power_slash",
+      "name": "强力斩",
+      "kind": "attack_status",
+      "power": 1.25,
+      "range": [1, 1],
+      "cost": 3,
+      "status": "break",
+      "status_turns": 1
+    },
+    {
+      "id": "sk_fireball",
+      "name": "火球术",
+      "kind": "attack",
+      "power": 1.4,
+      "range": [1, 2],
+      "cost": 4
+    },
+    {
+      "id": "sk_heal",
+      "name": "治疗术",
+      "kind": "heal",
+      "power": 1.2,
+      "range": [1, 2],
+      "cost": 4
+    },
+    {
+      "id": "sk_poison_arrow",
+      "name": "毒箭",
+      "kind": "attack_status",
+      "power": 0.95,
+      "range": [2, 2],
+      "cost": 3,
+      "status": "poison",
+      "status_turns": 3
+    },
+
+    {
+      "id": "sk_blade_storm",
+      "name": "剑刃风暴",
+      "kind": "attack",
+      "power": 1.8,
+      "range": [1, 1],
+      "cost": 6
+    },
+    {
+      "id": "sk_guard_stance",
+      "name": "圣盾姿态",
+      "kind": "heal",
+      "power": 0.8,
+      "range": [0, 0],
+      "cost": 4
+    },
+    {
+      "id": "sk_eagle_eye",
+      "name": "鹰眼狙击",
+      "kind": "attack",
+      "power": 1.6,
+      "range": [2, 3],
+      "cost": 6
+    },
+    {
+      "id": "sk_berserk",
+      "name": "狂怒重击",
+      "kind": "attack_status",
+      "power": 1.7,
+      "range": [1, 1],
+      "cost": 6,
+      "status": "stun",
+      "status_turns": 1
+    }
+  ]
+}

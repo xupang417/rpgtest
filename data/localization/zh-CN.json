@@ -1,0 +1,10 @@
+{
+  "game.title": "像素王国战棋RPG",
+  "menu.start": "开始游戏",
+  "menu.load": "读取存档",
+  "menu.exit": "退出",
+  "world.title": "世界地图",
+  "camp.title": "整备营地",
+  "battle.victory": "战斗胜利！",
+  "battle.defeat": "战斗失败……"
+}

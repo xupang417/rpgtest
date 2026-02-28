@@ -1,0 +1,72 @@
+{
+  "promotions": [
+    {
+      "from": "lord",
+      "to": "swordmaster",
+      "need_level": 10,
+      "need_item": "seal_master",
+      "bonus": {
+        "hp": 2,
+        "str": 2,
+        "mag": 0,
+        "skl": 2,
+        "spd": 2,
+        "lck": 1,
+        "def": 1,
+        "res": 1
+      },
+      "learn_skills": ["sk_blade_storm"]
+    },
+    {
+      "from": "knight",
+      "to": "paladin",
+      "need_level": 10,
+      "need_item": "seal_knight",
+      "bonus": {
+        "hp": 3,
+        "str": 2,
+        "mag": 0,
+        "skl": 1,
+        "spd": 1,
+        "lck": 1,
+        "def": 2,
+        "res": 1
+      },
+      "learn_skills": ["sk_guard_stance"]
+    },
+    {
+      "from": "archer",
+      "to": "sniper",
+      "need_level": 10,
+      "need_item": "seal_bow",
+      "bonus": {
+        "hp": 2,
+        "str": 2,
+        "mag": 0,
+        "skl": 3,
+        "spd": 2,
+        "lck": 1,
+        "def": 1,
+        "res": 1
+      },
+      "learn_skills": ["sk_eagle_eye"]
+    },
+    {
+      "from": "fighter",
+      "to": "berserker",
+      "need_level": 10,
+      "need_item": "seal_axe",
+      "bonus": {
+        "hp": 3,
+        "str": 3,
+        "mag": 0,
+        "skl": 1,
+        "spd": 1,
+        "lck": 0,
+        "def": 1,
+        "res": 0
+      },
+      "learn_skills": ["sk_berserk"]
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "id": "ch02_battle_01",
+  "name": "边境林地",
+  "map": {
+    "width": 14,
+    "height": 9,
+    "terrain_overrides": [
+      { "x": 4, "y": 1, "terrain": "forest" },
+      { "x": 5, "y": 1, "terrain": "forest" },
+      { "x": 6, "y": 1, "terrain": "forest" },
+      { "x": 4, "y": 2, "terrain": "forest" },
+      { "x": 5, "y": 2, "terrain": "forest" },
+      { "x": 6, "y": 2, "terrain": "forest" },
+      { "x": 8, "y": 3, "terrain": "mountain" },
+      { "x": 9, "y": 3, "terrain": "mountain" },
+      { "x": 10, "y": 3, "terrain": "mountain" },
+      { "x": 2, "y": 7, "terrain": "fort" }
+    ]
+  },
+  "player_units": [
+    {
+      "id": "p1",
+      "name": "Aren",
+      "class_id": "lord",
+      "weapon_id": "iron_sword",
+      "spawn": [1, 7],
+      "stats": {
+        "hp": 26,
+        "str": 9,
+        "mag": 3,
+        "skl": 9,
+        "spd": 8,
+        "lck": 6,
+        "def": 7,
+        "res": 3
+      }
+    },
+    {
+      "id": "p2",
+      "name": "Bran",
+      "class_id": "knight",
+      "weapon_id": "iron_lance",
+      "spawn": [2, 7],
+      "stats": {
+        "hp": 28,
+        "str": 10,
+        "mag": 1,
+        "skl": 7,
+        "spd": 6,
+        "lck": 4,
+        "def": 9,
+        "res": 2
+      }
+    },
+    {
+      "id": "p3",
+      "name": "Cina",
+      "class_id": "archer",
+      "weapon_id": "iron_bow",
+      "spawn": [1, 8],
+      "stats": {
+        "hp": 22,
+        "str": 8,
+        "mag": 2,
+        "skl": 10,
+        "spd": 9,
+        "lck": 7,
+        "def": 5,
+        "res": 3
+      }
+    }
+  ],
+  "enemy_units": [
+    {
+      "id": "e1",
+      "name": "盗匪甲",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [11, 1],
+      "stats": {
+        "hp": 24,
+        "str": 10,
+        "mag": 0,
+        "skl": 6,
+        "spd": 6,
+        "lck": 3,
+        "def": 5,
+        "res": 1
+      }
+    },
+    {
+      "id": "e2",
+      "name": "盗匪乙",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [12, 2],
+      "stats": {
+        "hp": 24,
+        "str": 10,
+        "mag": 0,
+        "skl": 6,
+        "spd": 6,
+        "lck": 3,
+        "def": 5,
+        "res": 1
+      }
+    },
+    {
+      "id": "e3",
+      "name": "盗匪丙",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [10, 2],
+      "stats": {
+        "hp": 23,
+        "str": 9,
+        "mag": 0,
+        "skl": 6,
+        "spd": 6,
+        "lck": 3,
+        "def": 5,
+        "res": 1
+      }
+    },
+    {
+      "id": "e4",
+      "name": "盗匪头目",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [12, 1],
+      "stats": {
+        "hp": 30,
+        "str": 12,
+        "mag": 0,
+        "skl": 7,
+        "spd": 7,
+        "lck": 4,
+        "def": 7,
+        "res": 2
+      }
+    }
+  ],
+  "victory": { "type": "defeat_all" },
+  "defeat": { "type": "all_players_down" }
+}

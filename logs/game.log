@@ -1,0 +1,46 @@
+[2026-02-28 18:01:53] [INFO] Enter BootScene
+[2026-02-28 18:01:53] [INFO] Game initialized
+[2026-02-28 18:01:53] [INFO] Game loop started
+[2026-02-28 18:02:02] [INFO] Game exited
+[2026-02-28 18:04:54] [INFO] Enter TacticalScene
+[2026-02-28 18:04:54] [INFO] Game initialized with TacticalScene
+[2026-02-28 18:04:54] [INFO] Game loop started
+[2026-02-28 18:07:45] [INFO] Game exited
+[2026-02-28 18:12:09] [INFO] Enter TacticalScene
+[2026-02-28 18:12:09] [INFO] Game initialized with TacticalScene
+[2026-02-28 18:12:09] [INFO] Game loop started
+[2026-02-28 18:12:37] [INFO] Game exited
+[2026-02-28 18:14:54] [INFO] Enter TacticalScene
+[2026-02-28 18:14:54] [INFO] Game initialized with TacticalScene
+[2026-02-28 18:14:54] [INFO] Game loop started
+[2026-02-28 18:15:22] [INFO] Game exited
+[2026-02-28 19:08:37] [INFO] Enter TacticalScene
+[2026-02-28 19:08:37] [INFO] Game initialized with TacticalScene
+[2026-02-28 19:08:37] [INFO] Game loop started
+[2026-02-28 19:09:28] [INFO] Game exited
+[2026-02-28 19:20:24] [INFO] Game initialized with TacticalScene
+[2026-02-28 19:20:24] [INFO] Game loop started
+[2026-02-28 19:23:39] [INFO] Game exited
+[2026-02-28 19:33:33] [INFO] 进入世界地图场景
+[2026-02-28 19:33:33] [INFO] 游戏启动：世界地图
+[2026-02-28 19:33:41] [INFO] 离开世界地图场景
+[2026-02-28 19:33:46] [INFO] 进入世界地图场景
+[2026-02-28 19:33:46] [INFO] 离开世界地图场景
+[2026-02-28 19:34:24] [INFO] 游戏退出
+[2026-02-28 19:42:35] [INFO] 游戏启动：世界地图
+[2026-02-28 19:46:07] [INFO] 游戏退出
+[2026-02-28 19:49:02] [INFO] 游戏启动：世界地图
+[2026-02-28 19:50:06] [INFO] 游戏退出
+[2026-02-28 19:54:44] [INFO] 游戏启动：世界地图
+[2026-02-28 20:13:19] [INFO] 游戏启动：世界地图
+[2026-02-28 20:13:27] [INFO] 游戏启动：世界地图
+[2026-02-28 20:14:36] [INFO] 游戏启动：世界地图
+[2026-02-28 20:16:20] [INFO] 游戏退出
+[2026-02-28 20:29:36] [INFO] 游戏启动：主菜单
+[2026-02-28 20:29:43] [INFO] 进入世界地图场景
+[2026-02-28 20:29:44] [INFO] 离开世界地图场景
+[2026-02-28 20:32:15] [INFO] 进入世界地图场景
+[2026-02-28 20:32:16] [INFO] 离开世界地图场景
+[2026-02-28 20:32:18] [INFO] 进入世界地图场景
+[2026-02-28 20:32:20] [INFO] 离开世界地图场景
+[2026-02-28 20:32:54] [INFO] 游戏退出

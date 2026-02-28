@@ -1,0 +1,131 @@
+{
+  "id": "ch01_battle_01",
+  "name": "王都郊野",
+  "map": {
+    "width": 12,
+    "height": 8,
+    "terrain_overrides": [
+      { "x": 5, "y": 1, "terrain": "forest" },
+      { "x": 6, "y": 1, "terrain": "forest" },
+      { "x": 5, "y": 2, "terrain": "forest" },
+      { "x": 6, "y": 2, "terrain": "forest" },
+      { "x": 5, "y": 3, "terrain": "forest" },
+      { "x": 6, "y": 3, "terrain": "forest" },
+      { "x": 5, "y": 4, "terrain": "forest" },
+      { "x": 6, "y": 4, "terrain": "forest" },
+      { "x": 5, "y": 5, "terrain": "forest" },
+      { "x": 6, "y": 5, "terrain": "forest" },
+      { "x": 9, "y": 1, "terrain": "mountain" },
+      { "x": 9, "y": 2, "terrain": "mountain" },
+      { "x": 1, "y": 6, "terrain": "fort" }
+    ]
+  },
+  "player_units": [
+    {
+      "id": "p1",
+      "name": "Aren",
+      "class_id": "lord",
+      "weapon_id": "iron_sword",
+      "spawn": [1, 6],
+      "stats": {
+        "hp": 24,
+        "str": 8,
+        "mag": 3,
+        "skl": 8,
+        "spd": 7,
+        "lck": 5,
+        "def": 6,
+        "res": 2
+      }
+    },
+    {
+      "id": "p2",
+      "name": "Bran",
+      "class_id": "knight",
+      "weapon_id": "iron_lance",
+      "spawn": [2, 6],
+      "stats": {
+        "hp": 26,
+        "str": 9,
+        "mag": 1,
+        "skl": 6,
+        "spd": 5,
+        "lck": 3,
+        "def": 8,
+        "res": 1
+      }
+    },
+    {
+      "id": "p3",
+      "name": "Cina",
+      "class_id": "archer",
+      "weapon_id": "iron_bow",
+      "spawn": [1, 7],
+      "stats": {
+        "hp": 20,
+        "str": 7,
+        "mag": 1,
+        "skl": 9,
+        "spd": 8,
+        "lck": 6,
+        "def": 4,
+        "res": 2
+      }
+    }
+  ],
+  "enemy_units": [
+    {
+      "id": "e1",
+      "name": "Bandit A",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [9, 1],
+      "stats": {
+        "hp": 20,
+        "str": 8,
+        "mag": 0,
+        "skl": 5,
+        "spd": 5,
+        "lck": 2,
+        "def": 4,
+        "res": 0
+      }
+    },
+    {
+      "id": "e2",
+      "name": "Bandit B",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [10, 2],
+      "stats": {
+        "hp": 20,
+        "str": 8,
+        "mag": 0,
+        "skl": 5,
+        "spd": 5,
+        "lck": 2,
+        "def": 4,
+        "res": 0
+      }
+    },
+    {
+      "id": "e3",
+      "name": "Bandit C",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe",
+      "spawn": [8, 2],
+      "stats": {
+        "hp": 20,
+        "str": 8,
+        "mag": 0,
+        "skl": 5,
+        "spd": 5,
+        "lck": 2,
+        "def": 4,
+        "res": 0
+      }
+    }
+  ],
+  "victory": { "type": "defeat_all" },
+  "defeat": { "type": "all_players_down" }
+}

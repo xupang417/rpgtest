@@ -1,0 +1,53 @@
+{
+  "story": {
+    "ch01_battle_01_intro": [
+      {
+        "speaker": "旁白",
+        "text": "王都郊野上，风声紧迫。盗匪正在集结。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Aren",
+        "text": "我们必须守住这条通往王都的道路。",
+        "portrait": ""
+      },
+      { "speaker": "Bran", "text": "前方有埋伏，小心推进。", "portrait": "" }
+    ],
+    "ch01_battle_01_victory": [
+      {
+        "speaker": "Cina",
+        "text": "敌人溃散了！但这只是开始。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Aren",
+        "text": "向边境林地进发，查明幕后黑手。",
+        "portrait": ""
+      }
+    ],
+    "ch02_battle_01_intro": [
+      {
+        "speaker": "旁白",
+        "text": "边境林地阴云密布，更多敌军正在逼近。",
+        "portrait": ""
+      },
+      {
+        "speaker": "Bran",
+        "text": "这次的敌人数量更多，不能大意。",
+        "portrait": ""
+      }
+    ],
+    "ch02_battle_01_victory": [
+      {
+        "speaker": "Aren",
+        "text": "林地已清剿，我们离真相又近了一步。",
+        "portrait": ""
+      },
+      {
+        "speaker": "旁白",
+        "text": "第一章结束，新的旅途即将开始。",
+        "portrait": ""
+      }
+    ]
+  }
+}

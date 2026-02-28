@@ -1,0 +1,8 @@
+{
+  "key_items": [
+    { "id": "seal_master", "name": "剑士纹章", "desc": "可使领主系职业转职。" },
+    { "id": "seal_knight", "name": "骑士纹章", "desc": "可使骑士系职业转职。" },
+    { "id": "seal_bow", "name": "狩猎纹章", "desc": "可使弓手系职业转职。" },
+    { "id": "seal_axe", "name": "战狂纹章", "desc": "可使战士系职业转职。" }
+  ]
+}

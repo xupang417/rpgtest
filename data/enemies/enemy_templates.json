@@ -1,0 +1,10 @@
+{
+  "enemies": [
+    {
+      "id": "bandit_basic",
+      "display_name": "山贼",
+      "class_id": "fighter",
+      "weapon_id": "iron_axe"
+    }
+  ]
+}

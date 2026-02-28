@@ -34,7 +34,7 @@ class DummySceneManager:
 
 
 def _load_npc_data():
-    p = Path("/home/runner/work/rpgtest/rpgtest/data/npcs/npcs.json")
+    p = Path(__file__).resolve().parents[2] / "data/npcs/npcs.json"
     raw = json.loads(p.read_text(encoding="utf-8"))
     return raw.get("npcs", {})
 
@@ -84,31 +84,34 @@ def test_class_change_menu_promotes_unit():
 
 def test_battle_victory_sets_pending_victory_dialogue():
     pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
-    content = ContentLoader()
-    content.load_all()
-    gs = GameState()
-    gs.shop_system = ShopSystem(initial_gold=0)
-    gs.camp_inventory = Inventory()
-    gs.npc_system = NPCSystem(_load_npc_data())
+    try:
+        screen = pygame.display.set_mode((1280, 720))
+        content = ContentLoader()
+        content.load_all()
+        gs = GameState()
+        gs.shop_system = ShopSystem(initial_gold=0)
+        gs.camp_inventory = Inventory()
+        gs.npc_system = NPCSystem(_load_npc_data())
 
-    mgr = DummySceneManager()
-    scene = TacticalScene(
-        screen=screen,
-        scene_manager=mgr,
-        logger=None,
-        stage_id="ch01_battle_01",
-        content_loader=content,
-        unlocked_stages=gs.unlocked_stages,
-        deploy_ids=["p1", "p2", "p3"],
-        external_inventory=gs.camp_inventory,
-        game_state=gs,
-    )
-    party = Party(max_deploy=3)
-    party.set_all_members(scene.players[:])
-    party.deployed_ids = [u.id for u in scene.players[:3]]
-    gs.camp_party = party
+        mgr = DummySceneManager()
+        scene = TacticalScene(
+            screen=screen,
+            scene_manager=mgr,
+            logger=None,
+            stage_id="ch01_battle_01",
+            content_loader=content,
+            unlocked_stages=gs.unlocked_stages,
+            deploy_ids=["p1", "p2", "p3"],
+            external_inventory=gs.camp_inventory,
+            game_state=gs,
+        )
+        party = Party(max_deploy=3)
+        party.set_all_members(scene.players[:])
+        party.deployed_ids = [u.id for u in scene.players[:3]]
+        gs.camp_party = party
 
-    scene._end_battle(victory=True)
-    assert mgr.replaced_scene is not None
-    assert getattr(mgr.replaced_scene, "dialogue_box").visible is True
+        scene._end_battle(victory=True)
+        assert mgr.replaced_scene is not None
+        assert getattr(mgr.replaced_scene, "dialogue_box").visible is True
+    finally:
+        pygame.quit()

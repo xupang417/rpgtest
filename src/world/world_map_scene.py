@@ -4,6 +4,12 @@ from src.world.town_scene import TownScene
 
 
 class WorldMapScene(SceneBase):
+    CURSOR_STEP = 24
+    CURSOR_MIN_X = 620
+    CURSOR_MAX_X = 1240
+    CURSOR_MIN_Y = 120
+    CURSOR_MAX_Y = 620
+
     def __init__(
         self,
         screen,
@@ -32,7 +38,7 @@ class WorldMapScene(SceneBase):
         self.selected = 0
         self.message = "请选择章节（空格进入整备）。"
         self._stage_rects = []
-        self.cursor_x = 620
+        self.cursor_x = self.CURSOR_MIN_X
         self.cursor_y = 300
 
         self._refresh_stage_list()
@@ -79,16 +85,16 @@ class WorldMapScene(SceneBase):
                 )
             )
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-            self.cursor_x = max(620, self.cursor_x - 24)
+            self.cursor_x = max(self.CURSOR_MIN_X, self.cursor_x - self.CURSOR_STEP)
             self.message = "世界地图移动：向左。"
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-            self.cursor_x = min(1240, self.cursor_x + 24)
+            self.cursor_x = min(self.CURSOR_MAX_X, self.cursor_x + self.CURSOR_STEP)
             self.message = "世界地图移动：向右。"
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_w:
-            self.cursor_y = max(120, self.cursor_y - 24)
+            self.cursor_y = max(self.CURSOR_MIN_Y, self.cursor_y - self.CURSOR_STEP)
             self.message = "世界地图移动：向上。"
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-            self.cursor_y = min(620, self.cursor_y + 24)
+            self.cursor_y = min(self.CURSOR_MAX_Y, self.cursor_y + self.CURSOR_STEP)
             self.message = "世界地图移动：向下。"
         elif event.type == pygame.MOUSEMOTION:
             for i, rect in enumerate(self._stage_rects):

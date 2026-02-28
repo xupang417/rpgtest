@@ -1,3 +1,7 @@
+import pygame
+from src.rpg.promotion_system import find_promotion_option, do_promote
+
+
 class ClassChangeMenu:
     def __init__(self):
         self.unit_index = 0
@@ -22,9 +26,6 @@ class ClassChangeMenu:
         if not self._units:
             self.message = "当前没有可转职角色。"
             return
-        import pygame
-        from src.rpg.promotion_system import find_promotion_option, do_promote
-
         if key == pygame.K_UP:
             self.unit_index = (self.unit_index - 1) % len(self._units)
             self.rule_index = 0
@@ -52,9 +53,6 @@ class ClassChangeMenu:
                 self.message = msg
 
     def draw(self, screen):
-        import pygame
-        from src.rpg.promotion_system import find_promotion_option
-
         font = pygame.font.SysFont("simhei", 24)
         small = pygame.font.SysFont("simhei", 18)
         screen.fill((32, 28, 40))

@@ -12,6 +12,7 @@ from src.rpg.exp_system import exp_for_attack
 
 class TacticalScene(SceneBase):
     TILE_SIZE = 64
+    EXP_PER_EXTRA_DEFEAT = 2
 
     def __init__(
         self,
@@ -245,7 +246,9 @@ class TacticalScene(SceneBase):
             content=self.content,
         )
         defeated = len([e for e in self.enemies if not e.alive])
-        gain = exp_for_attack(hit=True, defeated=defeated > 0)
+        base_exp = exp_for_attack(hit=True, defeated=defeated > 0)
+        bonus_exp = max(0, defeated - 1) * self.EXP_PER_EXTRA_DEFEAT
+        gain = base_exp + bonus_exp
         for unit in self._alive(self.players):
             unit.exp += gain
         self.message = "战斗结算：金币+%d 物品+%d 招募+%d" % (

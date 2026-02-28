@@ -1,3 +1,7 @@
+from src.rpg.unit import Unit
+from src.rpg.stats import Stats
+
+
 class NPCSystem:
     """
     章节相关 NPC 与招募信息管理（轻量版）
@@ -30,9 +34,6 @@ class NPCSystem:
         if not unit_cfg:
             self.recruit(npc_id)
             return None
-
-        from src.rpg.unit import Unit
-        from src.rpg.stats import Stats
 
         class_id = unit_cfg.get("class_id")
         weapon_id = unit_cfg.get("weapon_id")

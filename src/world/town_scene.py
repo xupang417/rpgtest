@@ -23,6 +23,11 @@ from src.ui.menu_class_change import ClassChangeMenu
 class TownScene(SceneBase):
     NPC_DATA_PATH = Path("data/npcs/npcs.json")
     NPC_HINT_MAX_LEN = 24
+    HERO_STEP = 24
+    HERO_MIN_X = 650
+    HERO_MAX_X = 1180
+    HERO_MIN_Y = 220
+    HERO_MAX_Y = 520
 
     STATE_MAIN = "main"
     STATE_PARTY = "party"
@@ -203,16 +208,16 @@ class TownScene(SceneBase):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.selected = (self.selected + 1) % len(self.options)
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                self.hero_x = max(650, self.hero_x - 24)
+                self.hero_x = max(self.HERO_MIN_X, self.hero_x - self.HERO_STEP)
                 self.message = "你在营地中向左移动。"
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                self.hero_x = min(1180, self.hero_x + 24)
+                self.hero_x = min(self.HERO_MAX_X, self.hero_x + self.HERO_STEP)
                 self.message = "你在营地中向右移动。"
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_w:
-                self.hero_y = max(220, self.hero_y - 24)
+                self.hero_y = max(self.HERO_MIN_Y, self.hero_y - self.HERO_STEP)
                 self.message = "你在营地中向上移动。"
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-                self.hero_y = min(520, self.hero_y + 24)
+                self.hero_y = min(self.HERO_MAX_Y, self.hero_y + self.HERO_STEP)
                 self.message = "你在营地中向下移动。"
             elif event.type == pygame.MOUSEMOTION:
                 for i, rect in enumerate(self._option_rects):

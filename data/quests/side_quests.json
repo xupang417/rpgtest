@@ -1,0 +1,20 @@
+{
+  "quests": [
+    {
+      "id": "sq_rescue_lysa",
+      "name": "救援村医",
+      "type": "side",
+      "target_stage": "ch01_battle_01",
+      "objective": "在第一章结束前交付药草",
+      "rewards": { "gold": 200, "recruit_npc": "npc_healer_lysa" }
+    },
+    {
+      "id": "sq_merchant_route",
+      "name": "护送商队",
+      "type": "side",
+      "target_stage": "ch02_battle_01",
+      "objective": "完成边境护送",
+      "rewards": { "gold": 300, "items": ["swift_boots"] }
+    }
+  ]
+}

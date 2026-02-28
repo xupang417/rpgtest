@@ -4,6 +4,12 @@ from src.world.town_scene import TownScene
 
 
 class WorldMapScene(SceneBase):
+    CURSOR_STEP = 24
+    CURSOR_MIN_X = 620
+    CURSOR_MAX_X = 1240
+    CURSOR_MIN_Y = 120
+    CURSOR_MAX_Y = 620
+
     def __init__(
         self,
         screen,
@@ -31,6 +37,9 @@ class WorldMapScene(SceneBase):
 
         self.selected = 0
         self.message = "请选择章节（空格进入整备）。"
+        self._stage_rects = []
+        self.cursor_x = self.CURSOR_MIN_X
+        self.cursor_y = 300
 
         self._refresh_stage_list()
 
@@ -51,21 +60,56 @@ class WorldMapScene(SceneBase):
             self.selected = 0
 
     def handle_event(self, event):
-        if event.type != pygame.KEYDOWN:
-            return
-
         self._refresh_stage_list()
 
-        if event.key == pygame.K_UP:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             if self.stage_ids:
                 self.selected = (self.selected - 1) % len(self.stage_ids)
 
-        elif event.key == pygame.K_DOWN:
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             if self.stage_ids:
                 self.selected = (self.selected + 1) % len(self.stage_ids)
 
-        elif event.key == pygame.K_SPACE:
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             if not self.stage_ids:
+                return
+            stage_id = self.stage_ids[self.selected]
+            self.scene_manager.push(
+                TownScene(
+                    self.screen,
+                    self.scene_manager,
+                    content_loader=self.content,
+                    stage_id=stage_id,
+                    unlocked_stages=self.unlocked_stages,
+                    game_state=self.game_state
+                )
+            )
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+            self.cursor_x = max(self.CURSOR_MIN_X, self.cursor_x - self.CURSOR_STEP)
+            self.message = "世界地图移动：向左。"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+            self.cursor_x = min(self.CURSOR_MAX_X, self.cursor_x + self.CURSOR_STEP)
+            self.message = "世界地图移动：向右。"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_w:
+            self.cursor_y = max(self.CURSOR_MIN_Y, self.cursor_y - self.CURSOR_STEP)
+            self.message = "世界地图移动：向上。"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+            self.cursor_y = min(self.CURSOR_MAX_Y, self.cursor_y + self.CURSOR_STEP)
+            self.message = "世界地图移动：向下。"
+        elif event.type == pygame.MOUSEMOTION:
+            for i, rect in enumerate(self._stage_rects):
+                if rect.collidepoint(event.pos):
+                    self.selected = i
+                    break
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            clicked = False
+            for i, rect in enumerate(self._stage_rects):
+                if not rect.collidepoint(event.pos):
+                    continue
+                self.selected = i
+                clicked = True
+                break
+            if not clicked or not self.stage_ids:
                 return
             stage_id = self.stage_ids[self.selected]
             self.scene_manager.push(
@@ -86,7 +130,7 @@ class WorldMapScene(SceneBase):
         self.screen.fill((20, 40, 70))
 
         title = self.font.render("世界地图", True, (255, 230, 120))
-        hint = self.small.render("↑↓ 选择章节  空格进入整备", True, (235, 235, 235))
+        hint = self.small.render("↑↓ 选择章节  空格进入整备  ←→+W/S 地图移动", True, (235, 235, 235))
         self.screen.blit(title, (40, 30))
         self.screen.blit(hint, (40, 68))
 
@@ -95,13 +139,20 @@ class WorldMapScene(SceneBase):
         pygame.draw.rect(self.screen, (120, 140, 180), panel, 2)
 
         y = 140
+        self._stage_rects = []
         for i, sid in enumerate(self.stage_ids):
             stage = self.content.stage_index["stages"].get(sid, {})
             name = stage.get("name", sid)
+            rect = pygame.Rect(52, y - 2, 500, 28)
+            self._stage_rects.append(rect)
             color = (255, 230, 120) if i == self.selected else (230, 230, 230)
+            if i == self.selected:
+                pygame.draw.rect(self.screen, (52, 75, 110), rect)
             txt = self.small.render("%s - %s" % (sid, name), True, color)
             self.screen.blit(txt, (60, y))
             y += 34
 
         msg = self.small.render(self.message, True, (200, 220, 240))
         self.screen.blit(msg, (40, 590))
+        pygame.draw.circle(self.screen, (120, 220, 180), (self.cursor_x, self.cursor_y), 10)
+        self.screen.blit(self.small.render("移动：←→ + W/S", True, (200, 220, 240)), (620, 560))

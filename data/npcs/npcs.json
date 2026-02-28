@@ -1,0 +1,66 @@
+{
+  "npcs": {
+    "ch01_battle_01": [
+      {
+        "id": "npc_scout_01",
+        "name": "王都斥候",
+        "role": "情报员",
+        "line": "盗匪从北境来的补给线获得装备。"
+      },
+      {
+        "id": "npc_healer_lysa",
+        "name": "莉萨",
+        "role": "村医",
+        "line": "带回药草后，我愿意加入后勤救援。",
+        "recruit_unit": {
+          "name": "莉萨",
+          "class_id": "lord",
+          "weapon_id": "iron_sword",
+          "spawn": [0, 0],
+          "stats": {
+            "hp": 20,
+            "str": 5,
+            "mag": 7,
+            "skl": 6,
+            "spd": 6,
+            "lck": 8,
+            "def": 4,
+            "res": 7
+          }
+        }
+      }
+    ],
+    "ch02_battle_01": [
+      {
+        "id": "npc_merchant_01",
+        "name": "行商 Dori",
+        "role": "商人",
+        "line": "钢武器库存不多，想买就趁现在。"
+      }
+    ],
+    "ch03_battle_01": [
+      {
+        "id": "npc_priest_01",
+        "name": "修女艾莉娅",
+        "role": "修女",
+        "line": "击败古堡守军后，我会为军队提供治疗支援。",
+        "recruit_unit": {
+          "name": "艾莉娅",
+          "class_id": "archer",
+          "weapon_id": "iron_bow",
+          "spawn": [0, 0],
+          "stats": {
+            "hp": 22,
+            "str": 6,
+            "mag": 5,
+            "skl": 8,
+            "spd": 7,
+            "lck": 6,
+            "def": 4,
+            "res": 6
+          }
+        }
+      }
+    ]
+  }
+}

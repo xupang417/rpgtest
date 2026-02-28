@@ -1,0 +1,6 @@
+{
+  "accessories": [
+    { "id": "lucky_charm", "name": "幸运符", "lck_bonus": 2, "price": 400 },
+    { "id": "swift_boots", "name": "疾风靴", "spd_bonus": 1, "move_bonus": 1, "price": 800 }
+  ]
+}

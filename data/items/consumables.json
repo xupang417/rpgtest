@@ -1,0 +1,7 @@
+{
+  "consumables": [
+    { "id": "potion_s", "name": "小治疗药", "effect": "heal", "power": 10, "price": 120 },
+    { "id": "potion_m", "name": "治疗药", "effect": "heal", "power": 20, "price": 260 },
+    { "id": "antidote", "name": "解毒剂", "effect": "cleanse_poison", "power": 1, "price": 80 }
+  ]
+}

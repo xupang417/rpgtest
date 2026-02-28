@@ -70,6 +70,22 @@
       "cost": 6,
       "status": "stun",
       "status_turns": 1
+    },
+    {
+      "id": "sk_light_heal",
+      "name": "光愈",
+      "kind": "heal",
+      "power": 1.5,
+      "range": [1, 2],
+      "cost": 5
+    },
+    {
+      "id": "sk_shadow_strike",
+      "name": "影袭",
+      "kind": "attack",
+      "power": 1.55,
+      "range": [1, 1],
+      "cost": 5
     }
   ]
 }

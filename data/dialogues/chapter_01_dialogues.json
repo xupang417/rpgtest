@@ -1,0 +1,20 @@
+{
+  "chapter_id": "chapter_01",
+  "town_dialogues": [
+    {
+      "speaker": "王都斥候",
+      "text": "郊野有盗匪集结，传闻他们听命于一位神秘将军。"
+    },
+    {
+      "speaker": "旅店老板",
+      "text": "整备好再出发吧，前线比你想象的危险。"
+    }
+  ],
+  "battle_talk": [
+    {
+      "a": "Aren",
+      "b": "Bandit A",
+      "text": "放下武器，王国会给你审判机会。"
+    }
+  ]
+}

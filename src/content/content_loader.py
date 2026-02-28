@@ -4,7 +4,8 @@ from src.content.stage_loader import load_stage_index, load_stage_file
 from src.content.enemy_loader import load_enemy_templates
 from src.content.skill_loader import load_skills
 from src.content.promotion_loader import load_promotions
-from src.content.story_loader import load_main_story
+from src.content.story_loader import load_main_story, load_side_story
+from src.content.dialogue_loader import load_chapter_dialogues
 
 
 class ContentLoader:
@@ -16,6 +17,7 @@ class ContentLoader:
         self.stage_index = {}
         self.enemy_templates = {}
         self.story = {}
+        self.side_story = {}
 
     def load_all(self):
         self.classes = load_classes()
@@ -25,6 +27,7 @@ class ContentLoader:
         self.stage_index = load_stage_index()
         self.enemy_templates = load_enemy_templates()
         self.story = load_main_story()
+        self.side_story = load_side_story()
 
     def load_stage(self, stage_id: str) -> dict:
         entry = self.stage_index.get("stages", {}).get(stage_id)
@@ -35,3 +38,6 @@ class ContentLoader:
     def get_next_stage(self, stage_id: str) -> str:
         entry = self.stage_index.get("stages", {}).get(stage_id, {})
         return entry.get("next_stage", "")
+
+    def load_chapter_dialogues(self, chapter_id: str) -> dict:
+        return load_chapter_dialogues(chapter_id)

@@ -143,10 +143,14 @@ class TownScene(SceneBase):
                         self.selected = i
                         break
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                clicked = False
                 for i, rect in enumerate(self._option_rects):
                     if rect.collidepoint(event.pos):
                         self.selected = i
+                        clicked = True
                         break
+                if not clicked:
+                    return
                 op = self.options[self.selected]
                 if op == "查看关卡信息":
                     self._show_stage_info()

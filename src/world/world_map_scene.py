@@ -82,12 +82,14 @@ class WorldMapScene(SceneBase):
                     self.selected = i
                     break
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            clicked = False
             for i, rect in enumerate(self._stage_rects):
                 if not rect.collidepoint(event.pos):
                     continue
                 self.selected = i
+                clicked = True
                 break
-            if not self.stage_ids:
+            if not clicked or not self.stage_ids:
                 return
             stage_id = self.stage_ids[self.selected]
             self.scene_manager.push(

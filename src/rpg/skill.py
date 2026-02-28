@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -10,6 +11,5 @@ class Skill:
     range_min: int
     range_max: int
     cost: int = 0
-    status: str | None = None
+    status: Optional[str] = None
     status_turns: int = 0
-

@@ -1,12 +1,13 @@
 from src.rpg.unit import Unit
 from src.rpg.stats import Stats
+from typing import Optional
 
 
 class NPCSystem:
     """
     章节相关 NPC 与招募信息管理（轻量版）
     """
-    def __init__(self, npc_data: dict | None = None):
+    def __init__(self, npc_data: Optional[dict] = None):
         self.npc_data = npc_data or {}
         self.recruited_ids = set()
         self._npc_index = {}

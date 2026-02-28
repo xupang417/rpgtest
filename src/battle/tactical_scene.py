@@ -4,8 +4,10 @@ from src.battle.grid import GridMap
 from src.battle.pathfinding import reachable_tiles, manhattan
 from src.battle.combat_system import resolve_basic_attack
 from src.ui.action_menu import ActionMenu
+from src.ui.dialogue_box import DialogueBox
 from src.rpg.unit import Unit
 from src.rpg.stats import Stats
+from src.rpg.exp_system import exp_for_attack
 
 
 class TacticalScene(SceneBase):
@@ -53,6 +55,21 @@ class TacticalScene(SceneBase):
         self.moved_unit = None
         self.pending_attack_targets = []
         self.game_finished = False
+        self.external_inventory = external_inventory
+        self.external_gold = external_gold
+        self.dialogue_box = DialogueBox()
+        self._try_open_intro_dialogue()
+
+    def _try_open_intro_dialogue(self):
+        story_lines = self.content.story.get(f"{self.stage_id}_intro", [])
+        if not story_lines:
+            return
+        trigger_key = f"{self.stage_id}_battle_intro"
+        can_trigger = True
+        if self.game_state is not None and hasattr(self.game_state, "event_system"):
+            can_trigger = self.game_state.event_system.trigger_once(trigger_key)
+        if can_trigger:
+            self.dialogue_box.open(story_lines)
 
     def _build_units(self, entries, team, deploy_ids=None):
         result = []
@@ -184,10 +201,14 @@ class TacticalScene(SceneBase):
     def _end_battle(self, victory: bool):
         self.game_finished = True
         if victory:
+            self._settle_stage_rewards()
             next_stage = self.content.get_next_stage(self.stage_id)
             target_unlock = self.game_state.unlocked_stages if self.game_state else self.unlocked_stages
             if next_stage and next_stage not in target_unlock:
                 target_unlock.append(next_stage)
+
+            if self.game_state is not None:
+                self.game_state.pending_dialogue = self.content.story.get(f"{self.stage_id}_victory", [])
 
             self.scene_manager.pop()
             if next_stage:
@@ -207,7 +228,39 @@ class TacticalScene(SceneBase):
 
         self.scene_manager.pop()
 
+    def _settle_stage_rewards(self):
+        if self.game_state is None:
+            return
+        qs = getattr(self.game_state, "quest_system", None)
+        party = getattr(self.game_state, "camp_party", None)
+        npc_system = getattr(self.game_state, "npc_system", None)
+        if qs is None:
+            return
+        rewards = qs.on_stage_clear(
+            self.stage_id,
+            inventory=self.external_inventory,
+            shop=getattr(self.game_state, "shop_system", None),
+            npc_system=npc_system,
+            party=party,
+            content=self.content,
+        )
+        defeated = len([e for e in self.enemies if not e.alive])
+        gain = exp_for_attack(hit=True, defeated=defeated > 0)
+        for unit in self._alive(self.players):
+            unit.exp += gain
+        self.message = "战斗结算：金币+%d 物品+%d 招募+%d" % (
+            rewards.get("gold", 0),
+            len(rewards.get("items", [])),
+            len(rewards.get("recruited", [])),
+        )
+
     def handle_event(self, event):
+        if self.dialogue_box.visible:
+            if event.type == pygame.KEYDOWN and event.key in (pygame.K_SPACE, pygame.K_RETURN):
+                self.dialogue_box.next_line()
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.dialogue_box.next_line()
+            return
         if self.game_finished or self.phase != "player":
             return
         if event.type == pygame.MOUSEMOTION:
@@ -293,4 +346,4 @@ class TacticalScene(SceneBase):
         pygame.draw.rect(self.screen, (95, 95, 130), info_rect, 2)
         txt = "回合:%d 阶段:%s  %s" % (self.turn_count, self.phase, self.message)
         self.screen.blit(self.small.render(txt, True, (235, 235, 235)), (12, info_rect.y + 20))
-
+        self.dialogue_box.draw(self.screen)

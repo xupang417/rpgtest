@@ -13,6 +13,7 @@ class Unit:
     base: Stats
     weapon: object
     level: int = 1
+    exp: int = 0
     alive: bool = True
     acted: bool = False
 
@@ -31,4 +32,4 @@ class Unit:
         self.crit = getattr(self.weapon, "crit", 0)
         self.range_min = getattr(self.weapon, "range_min", 1)
         self.range_max = getattr(self.weapon, "range_max", 1)
-
+        self.skills = []

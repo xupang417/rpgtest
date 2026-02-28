@@ -32,6 +32,8 @@ class WorldMapScene(SceneBase):
         self.selected = 0
         self.message = "请选择章节（空格进入整备）。"
         self._stage_rects = []
+        self.cursor_x = 620
+        self.cursor_y = 300
 
         self._refresh_stage_list()
 
@@ -76,6 +78,18 @@ class WorldMapScene(SceneBase):
                     game_state=self.game_state
                 )
             )
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+            self.cursor_x = max(620, self.cursor_x - 24)
+            self.message = "世界地图移动：向左。"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+            self.cursor_x = min(1240, self.cursor_x + 24)
+            self.message = "世界地图移动：向右。"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_w:
+            self.cursor_y = max(120, self.cursor_y - 24)
+            self.message = "世界地图移动：向上。"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+            self.cursor_y = min(620, self.cursor_y + 24)
+            self.message = "世界地图移动：向下。"
         elif event.type == pygame.MOUSEMOTION:
             for i, rect in enumerate(self._stage_rects):
                 if rect.collidepoint(event.pos):
@@ -110,7 +124,7 @@ class WorldMapScene(SceneBase):
         self.screen.fill((20, 40, 70))
 
         title = self.font.render("世界地图", True, (255, 230, 120))
-        hint = self.small.render("↑↓ 选择章节  空格进入整备", True, (235, 235, 235))
+        hint = self.small.render("↑↓ 选择章节  空格进入整备  ←→+W/S 地图移动", True, (235, 235, 235))
         self.screen.blit(title, (40, 30))
         self.screen.blit(hint, (40, 68))
 
@@ -134,3 +148,5 @@ class WorldMapScene(SceneBase):
 
         msg = self.small.render(self.message, True, (200, 220, 240))
         self.screen.blit(msg, (40, 590))
+        pygame.draw.circle(self.screen, (120, 220, 180), (self.cursor_x, self.cursor_y), 10)
+        self.screen.blit(self.small.render("移动：←→ + W/S", True, (200, 220, 240)), (620, 560))

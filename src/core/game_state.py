@@ -4,6 +4,7 @@ from src.systems.bestiary_system import BestiarySystem
 from src.systems.item_codex_system import ItemCodexSystem
 from src.systems.achievement_system import AchievementSystem
 from src.systems.chapter_stats_system import ChapterStatsSystem
+from src.world.event_system import EventSystem
 
 
 class GameState:
@@ -18,3 +19,7 @@ class GameState:
         self.item_codex = ItemCodexSystem()
         self.achievement = AchievementSystem()
         self.chapter_stats = ChapterStatsSystem()
+        self.event_system = EventSystem()
+        self.camp_party = None
+        self.npc_system = None
+        self.pending_dialogue = []

@@ -16,6 +16,8 @@ from src.rpg.quest_log import QuestLog
 from src.systems.quest_system import QuestSystem
 from src.world.npc_system import NPCSystem
 from src.world.interaction_system import InteractionSystem
+from src.ui.dialogue_box import DialogueBox
+from src.ui.menu_class_change import ClassChangeMenu
 
 
 class TownScene(SceneBase):
@@ -26,6 +28,7 @@ class TownScene(SceneBase):
     STATE_PARTY = "party"
     STATE_INV = "inventory"
     STATE_EQUIP = "equipment"
+    STATE_CLASS = "class_change"
     STATE_SHOP = "shop"
     STATE_QUEST = "quest"
 
@@ -53,6 +56,7 @@ class TownScene(SceneBase):
             "队伍编成",
             "背包管理",
             "装备更换",
+            "职业转职",
             "商店",
             "任务日志",
             "开始出击",
@@ -63,14 +67,27 @@ class TownScene(SceneBase):
         self.message = "欢迎来到整备营地。"
         self.state = self.STATE_MAIN
         self._option_rects = []
+        self.hero_x = 760
+        self.hero_y = 450
 
         # 初始化单位
         self.preview_units = self._build_preview_units(stage_id)
-
-        # 队伍
-        self.party = Party(max_deploy=3)
-        self.party.set_all_members(self.preview_units)
-        self.party.deployed_ids = [u.id for u in self.preview_units[:self.party.max_deploy]]
+ 
+        # 队伍（持久化）
+        if self.game_state is not None and getattr(self.game_state, "camp_party", None) is not None:
+            self.party = self.game_state.camp_party
+            known_ids = {u.id for u in self.party.all_members}
+            for u in self.preview_units:
+                if u.id not in known_ids:
+                    self.party.all_members.append(u)
+                    if len(self.party.deployed_ids) < self.party.max_deploy:
+                        self.party.deployed_ids.append(u.id)
+        else:
+            self.party = Party(max_deploy=3)
+            self.party.set_all_members(self.preview_units)
+            self.party.deployed_ids = [u.id for u in self.preview_units[:self.party.max_deploy]]
+            if self.game_state is not None:
+                self.game_state.camp_party = self.party
 
         # 背包与商店：优先使用 game_state 持有对象
         if self.game_state is not None and hasattr(self.game_state, "camp_inventory"):
@@ -83,6 +100,10 @@ class TownScene(SceneBase):
             self.inventory.add("iron_lance", 1)
             self.inventory.add("iron_bow", 1)
             self.inventory.add("iron_axe", 1)
+            self.inventory.add("seal_master", 1)
+            self.inventory.add("seal_knight", 1)
+            self.inventory.add("seal_bow", 1)
+            self.inventory.add("seal_axe", 1)
             if self.game_state is not None:
                 self.game_state.camp_inventory = self.inventory
 
@@ -106,19 +127,38 @@ class TownScene(SceneBase):
         self.party_ui = PartyMenuUI()
         self.inv_ui = InventoryMenuUI()
         self.equip_ui = EquipmentMenuUI()
+        self.class_ui = ClassChangeMenu()
         self.shop_ui = ShopMenuUI()
         self.quest_ui = QuestMenuUI()
-        self.npc_system = NPCSystem(self._load_npc_data())
+        if self.game_state is not None and getattr(self.game_state, "npc_system", None) is not None:
+            self.npc_system = self.game_state.npc_system
+        else:
+            self.npc_system = NPCSystem(self._load_npc_data())
+            if self.game_state is not None:
+                self.game_state.npc_system = self.npc_system
         self.interaction_system = InteractionSystem()
         self.chapter_dialogues = self.content.load_chapter_dialogues(self._chapter_dialogue_id())
+        self.dialogue_box = DialogueBox()
 
-        first_town_dialogue = self.chapter_dialogues.get("town_dialogues", [])
-        if first_town_dialogue:
-            speaker = first_town_dialogue[0].get("speaker", "NPC")
-            text = first_town_dialogue[0].get("text", "")
-            self.message = f"{speaker}：{text}"
+        if self.game_state is not None and getattr(self.game_state, "pending_dialogue", None):
+            self.dialogue_box.open(self.game_state.pending_dialogue)
+            self.game_state.pending_dialogue = []
         else:
-            self.message = "欢迎来到整备营地。"
+            first_town_dialogue = self.chapter_dialogues.get("town_dialogues", [])
+            trigger_key = f"{self.stage_id}_town_intro"
+            can_trigger = True
+            if self.game_state is not None and hasattr(self.game_state, "event_system"):
+                can_trigger = self.game_state.event_system.trigger_once(trigger_key)
+            if first_town_dialogue and can_trigger:
+                lines = [{"speaker": l.get("speaker", "NPC"), "text": l.get("text", "")} for l in first_town_dialogue]
+                self.dialogue_box.open(lines)
+                self.message = "触发城镇剧情。"
+            elif first_town_dialogue:
+                speaker = first_town_dialogue[0].get("speaker", "NPC")
+                text = first_town_dialogue[0].get("text", "")
+                self.message = f"{speaker}：{text}"
+            else:
+                self.message = "欢迎来到整备营地。"
 
     def _build_preview_units(self, stage_id):
         stage = self.content.load_stage(stage_id)
@@ -150,11 +190,30 @@ class TownScene(SceneBase):
         return units
 
     def handle_event(self, event):
+        if self.dialogue_box.visible:
+            if event.type == pygame.KEYDOWN and event.key in (pygame.K_SPACE, pygame.K_RETURN):
+                self.dialogue_box.next_line()
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.dialogue_box.next_line()
+            return
+
         if self.state == self.STATE_MAIN:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
                 self.selected = (self.selected - 1) % len(self.options)
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.selected = (self.selected + 1) % len(self.options)
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                self.hero_x = max(650, self.hero_x - 24)
+                self.message = "你在营地中向左移动。"
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                self.hero_x = min(1180, self.hero_x + 24)
+                self.message = "你在营地中向右移动。"
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_w:
+                self.hero_y = max(220, self.hero_y - 24)
+                self.message = "你在营地中向上移动。"
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+                self.hero_y = min(520, self.hero_y + 24)
+                self.message = "你在营地中向下移动。"
             elif event.type == pygame.MOUSEMOTION:
                 for i, rect in enumerate(self._option_rects):
                     if rect.collidepoint(event.pos):
@@ -181,6 +240,16 @@ class TownScene(SceneBase):
                 elif op == "装备更换":
                     self.state = self.STATE_EQUIP
                     self.message = "进入装备更换。Esc返回。"
+                elif op == "职业转职":
+                    self.state = self.STATE_CLASS
+                    self.class_ui.open(
+                        self.party.all_members,
+                        self.content.promotions,
+                        self.content.classes,
+                        self.content.skills,
+                        self.inventory,
+                    )
+                    self.message = "进入职业转职。Esc返回。"
                 elif op == "商店":
                     self.state = self.STATE_SHOP
                     self.message = "进入商店。Esc返回。"
@@ -204,6 +273,16 @@ class TownScene(SceneBase):
                 elif op == "装备更换":
                     self.state = self.STATE_EQUIP
                     self.message = "进入装备更换。Esc返回。"
+                elif op == "职业转职":
+                    self.state = self.STATE_CLASS
+                    self.class_ui.open(
+                        self.party.all_members,
+                        self.content.promotions,
+                        self.content.classes,
+                        self.content.skills,
+                        self.inventory,
+                    )
+                    self.message = "进入职业转职。Esc返回。"
                 elif op == "商店":
                     self.state = self.STATE_SHOP
                     self.message = "进入商店。Esc返回。"
@@ -234,6 +313,11 @@ class TownScene(SceneBase):
 
         if self.state == self.STATE_EQUIP:
             self.equip_ui.handle_key(event.key, self.party.all_members, self.inventory, self.content.weapons)
+            return
+
+        if self.state == self.STATE_CLASS:
+            self.class_ui.handle_key(event.key)
+            self.message = self.class_ui.message
             return
 
         if self.state == self.STATE_SHOP:
@@ -317,6 +401,10 @@ class TownScene(SceneBase):
             self.equip_ui.draw(self.screen, self.party.all_members, self.inventory, self.content.weapons)
             return
 
+        if self.state == self.STATE_CLASS:
+            self.class_ui.draw(self.screen)
+            return
+
         if self.state == self.STATE_SHOP:
             self.shop_ui.draw(self.screen, self.shop, self.inventory)
             return
@@ -351,6 +439,8 @@ class TownScene(SceneBase):
         info = pygame.Rect(630, 110, 580, 430)
         pygame.draw.rect(self.screen, (62, 45, 30), info)
         pygame.draw.rect(self.screen, (150, 120, 90), info, 2)
+        pygame.draw.circle(self.screen, (120, 220, 180), (self.hero_x, self.hero_y), 12)
+        self.screen.blit(self.small.render("营地移动：方向键←→ + W/S", True, (210, 210, 210)), (650, 200))
 
         line1 = self.small.render("上阵人数：%d / %d" % (len(self.party.deployed_ids), self.party.max_deploy), True, (230, 230, 230))
         line2 = self.small.render("金币：%dG" % self.shop.gold, True, (230, 230, 230))
@@ -370,3 +460,4 @@ class TownScene(SceneBase):
 
         msg = self.small.render(self.message, True, (230, 220, 180))
         self.screen.blit(msg, (40, 590))
+        self.dialogue_box.draw(self.screen)

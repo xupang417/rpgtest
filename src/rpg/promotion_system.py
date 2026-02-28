@@ -27,7 +27,7 @@ def do_promote(unit, rule: dict, classes: dict, skills: dict, inventory):
 
     to_class_id = rule["to"]
     if to_class_id not in classes:
-        return False, f"目���职业不存在：{to_class_id}"
+        return False, f"目标职业不存在：{to_class_id}"
 
     # 消耗道具
     need_item = rule.get("need_item")

@@ -30,7 +30,7 @@ def test_story_and_stage_content_extended():
 def test_npc_interaction_and_chapter_flow_helpers():
     npc_data = {
         "ch01_battle_01": [
-            {"id": "npc_a", "name": "斥候", "role": "情报员", "line": "发现敌军。"}
+            {"id": "npc_scout_01", "name": "斥候", "role": "情报员", "line": "发现敌军。"}
         ]
     }
     npc_system = NPCSystem(npc_data)
@@ -40,10 +40,9 @@ def test_npc_interaction_and_chapter_flow_helpers():
     lines = InteractionSystem.get_stage_npc_lines(npcs)
     assert lines and "斥候" in lines[0]
 
-    npc_system.recruit("npc_a")
-    assert npc_system.is_recruited("npc_a")
+    npc_system.recruit("npc_scout_01")
+    assert npc_system.is_recruited("npc_scout_01")
 
     flow = ChapterFlow()
     flow.mark_completed("ch01_battle_01")
     assert flow.is_completed("ch01_battle_01")
-

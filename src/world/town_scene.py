@@ -19,6 +19,9 @@ from src.world.interaction_system import InteractionSystem
 
 
 class TownScene(SceneBase):
+    NPC_DATA_PATH = Path("data/npcs/npcs.json")
+    NPC_HINT_MAX_LEN = 24
+
     STATE_MAIN = "main"
     STATE_PARTY = "party"
     STATE_INV = "inventory"
@@ -114,6 +117,8 @@ class TownScene(SceneBase):
             speaker = first_town_dialogue[0].get("speaker", "NPC")
             text = first_town_dialogue[0].get("text", "")
             self.message = f"{speaker}：{text}"
+        else:
+            self.message = "欢迎来到整备营地。"
 
     def _build_preview_units(self, stage_id):
         stage = self.content.load_stage(stage_id)
@@ -251,11 +256,16 @@ class TownScene(SceneBase):
         pl = len(self.party.deployed_ids)
         name = stage.get("name", self.stage_id)
         npc_lines = self.interaction_system.get_stage_npc_lines(self.npc_system.npcs_for_stage(self.stage_id))
-        npc_hint = (" | NPC:%s" % npc_lines[0][:24]) if npc_lines else ""
+        npc_hint = ""
+        if npc_lines:
+            npc_line = npc_lines[0]
+            if len(npc_line) > self.NPC_HINT_MAX_LEN:
+                npc_line = npc_line[:self.NPC_HINT_MAX_LEN] + "..."
+            npc_hint = " | NPC:%s" % npc_line
         self.message = "关卡：%s | 出击人数:%d | 敌军人数:%d%s" % (name, pl, en, npc_hint)
 
     def _load_npc_data(self):
-        p = Path("data/npcs/npcs.json")
+        p = self.NPC_DATA_PATH
         if not p.exists():
             return {}
         raw = json.loads(p.read_text(encoding="utf-8"))
@@ -263,10 +273,13 @@ class TownScene(SceneBase):
 
     def _chapter_dialogue_id(self):
         parts = self.stage_id.split("_")
-        if len(parts) < 1:
+        if not parts or not parts[0]:
             return "chapter_01"
-        num = parts[0].replace("ch", "")
-        return f"chapter_{num}"
+        ch_tag = parts[0]
+        if len(ch_tag) < 3 or not ch_tag.startswith("ch") or not ch_tag[2:].isdigit():
+            return "chapter_01"
+        num = int(ch_tag[2:])
+        return f"chapter_{num:02d}"
 
     def _start_battle(self):
         # 统计启动

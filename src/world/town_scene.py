@@ -55,6 +55,7 @@ class TownScene(SceneBase):
         self.selected = 0
         self.message = "欢迎来到整备营地。"
         self.state = self.STATE_MAIN
+        self._option_rects = []
 
         # 初始化单位
         self.preview_units = self._build_preview_units(stage_id)
@@ -131,15 +132,44 @@ class TownScene(SceneBase):
         return units
 
     def handle_event(self, event):
-        if event.type != pygame.KEYDOWN:
-            return
-
         if self.state == self.STATE_MAIN:
-            if event.key == pygame.K_UP:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
                 self.selected = (self.selected - 1) % len(self.options)
-            elif event.key == pygame.K_DOWN:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.selected = (self.selected + 1) % len(self.options)
-            elif event.key == pygame.K_SPACE:
+            elif event.type == pygame.MOUSEMOTION:
+                for i, rect in enumerate(self._option_rects):
+                    if rect.collidepoint(event.pos):
+                        self.selected = i
+                        break
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                for i, rect in enumerate(self._option_rects):
+                    if rect.collidepoint(event.pos):
+                        self.selected = i
+                        break
+                op = self.options[self.selected]
+                if op == "查看关卡信息":
+                    self._show_stage_info()
+                elif op == "队伍编成":
+                    self.state = self.STATE_PARTY
+                    self.message = "进入队伍编成。Esc返回。"
+                elif op == "背包管理":
+                    self.state = self.STATE_INV
+                    self.message = "进入背包管理。Esc返回。"
+                elif op == "装备更换":
+                    self.state = self.STATE_EQUIP
+                    self.message = "进入装备更换。Esc返回。"
+                elif op == "商店":
+                    self.state = self.STATE_SHOP
+                    self.message = "进入商店。Esc返回。"
+                elif op == "任务日志":
+                    self.state = self.STATE_QUEST
+                    self.message = "进入任务日志。Esc返回。"
+                elif op == "开始出击":
+                    self._start_battle()
+                elif op == "返回世界地图":
+                    self.scene_manager.pop()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 op = self.options[self.selected]
                 if op == "查看关卡信息":
                     self._show_stage_info()
@@ -164,9 +194,12 @@ class TownScene(SceneBase):
                     self.scene_manager.pop()
             return
 
-        if event.key == pygame.K_ESCAPE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.state = self.STATE_MAIN
             self.message = "返回整备主菜单。"
+            return
+
+        if event.type != pygame.KEYDOWN:
             return
 
         if self.state == self.STATE_PARTY:
@@ -258,8 +291,13 @@ class TownScene(SceneBase):
         pygame.draw.rect(self.screen, (150, 120, 90), panel, 2)
 
         y = 150
+        self._option_rects = []
         for i, op in enumerate(self.options):
+            rect = pygame.Rect(56, y - 2, 520, 30)
+            self._option_rects.append(rect)
             color = (255, 230, 120) if i == self.selected else (235, 235, 235)
+            if i == self.selected:
+                pygame.draw.rect(self.screen, (90, 62, 44), rect)
             txt = self.small.render(op, True, color)
             self.screen.blit(txt, (60, y))
             y += 40

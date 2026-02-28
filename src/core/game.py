@@ -31,7 +31,8 @@ class Game:
                 content_loader=self.content,
                 config_obj=self.config,
                 logger=self.logger,
-                unlocked_stages=self.state.unlocked_stages
+                unlocked_stages=self.state.unlocked_stages,
+                game_state=self.state,
             )
         )
 

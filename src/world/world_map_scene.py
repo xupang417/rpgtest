@@ -31,6 +31,7 @@ class WorldMapScene(SceneBase):
 
         self.selected = 0
         self.message = "请选择章节（空格进入整备）。"
+        self._stage_rects = []
 
         self._refresh_stage_list()
 
@@ -51,20 +52,41 @@ class WorldMapScene(SceneBase):
             self.selected = 0
 
     def handle_event(self, event):
-        if event.type != pygame.KEYDOWN:
-            return
-
         self._refresh_stage_list()
 
-        if event.key == pygame.K_UP:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             if self.stage_ids:
                 self.selected = (self.selected - 1) % len(self.stage_ids)
 
-        elif event.key == pygame.K_DOWN:
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             if self.stage_ids:
                 self.selected = (self.selected + 1) % len(self.stage_ids)
 
-        elif event.key == pygame.K_SPACE:
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            if not self.stage_ids:
+                return
+            stage_id = self.stage_ids[self.selected]
+            self.scene_manager.push(
+                TownScene(
+                    self.screen,
+                    self.scene_manager,
+                    content_loader=self.content,
+                    stage_id=stage_id,
+                    unlocked_stages=self.unlocked_stages,
+                    game_state=self.game_state
+                )
+            )
+        elif event.type == pygame.MOUSEMOTION:
+            for i, rect in enumerate(self._stage_rects):
+                if rect.collidepoint(event.pos):
+                    self.selected = i
+                    break
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            for i, rect in enumerate(self._stage_rects):
+                if not rect.collidepoint(event.pos):
+                    continue
+                self.selected = i
+                break
             if not self.stage_ids:
                 return
             stage_id = self.stage_ids[self.selected]
@@ -95,10 +117,15 @@ class WorldMapScene(SceneBase):
         pygame.draw.rect(self.screen, (120, 140, 180), panel, 2)
 
         y = 140
+        self._stage_rects = []
         for i, sid in enumerate(self.stage_ids):
             stage = self.content.stage_index["stages"].get(sid, {})
             name = stage.get("name", sid)
+            rect = pygame.Rect(52, y - 2, 500, 28)
+            self._stage_rects.append(rect)
             color = (255, 230, 120) if i == self.selected else (230, 230, 230)
+            if i == self.selected:
+                pygame.draw.rect(self.screen, (52, 75, 110), rect)
             txt = self.small.render("%s - %s" % (sid, name), True, color)
             self.screen.blit(txt, (60, y))
             y += 34

@@ -7,12 +7,13 @@ from src.core.save_system import load_game
 
 
 class MainMenuScene(SceneBase):
-    def __init__(self, screen, scene_manager, content_loader, config_obj, logger=None, unlocked_stages=None):
+    def __init__(self, screen, scene_manager, content_loader, config_obj, logger=None, unlocked_stages=None, game_state=None):
         self.screen = screen
         self.scene_manager = scene_manager
         self.content = content_loader
         self.cfg = config_obj
         self.logger = logger
+        self.game_state = game_state
         self.unlocked_stages = unlocked_stages or ["ch01_battle_01"]
 
         self.ui = MainMenuUI()
@@ -22,10 +23,13 @@ class MainMenuScene(SceneBase):
         self.message = "欢迎来到像素王国。"
 
     def handle_event(self, event):
-        if event.type != pygame.KEYDOWN:
-            return
-
-        action = self.ui.handle_key(event.key)
+        action = None
+        if event.type == pygame.KEYDOWN:
+            action = self.ui.handle_key(event.key)
+        elif event.type == pygame.MOUSEMOTION:
+            self.ui.hover(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            action = self.ui.click(event.pos)
         if not action:
             return
 
@@ -36,7 +40,8 @@ class MainMenuScene(SceneBase):
                     self.scene_manager,
                     content_loader=self.content,
                     logger=self.logger,
-                    unlocked_stages=self.unlocked_stages
+                    unlocked_stages=self.unlocked_stages,
+                    game_state=self.game_state,
                 )
             )
 
@@ -53,7 +58,8 @@ class MainMenuScene(SceneBase):
                         self.scene_manager,
                         content_loader=self.content,
                         logger=self.logger,
-                        unlocked_stages=unlocked
+                        unlocked_stages=unlocked,
+                        game_state=self.game_state,
                     )
                 )
 
